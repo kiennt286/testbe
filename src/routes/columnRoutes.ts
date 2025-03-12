@@ -1,9 +1,18 @@
-import express from "express";
+import { Router, Request, Response } from "express";
 import { getColumnById, getColumns,updateColumnOrder } from "../controllers/columnController";
 
-const router = express.Router();
+const router = Router();
 
-router.get("/", getColumns);
-router.get("/:id", getColumnById);
-router.put("/order", updateColumnOrder)
+router.get("/", async (req: Request, res: Response) => {
+  await getColumns(req, res);
+});
+
+router.get("/:id", async (req: Request, res: Response) => {
+  await getColumnById(req, res);
+});
+
+router.put("/order", async (req: Request, res: Response) => {
+  await updateColumnOrder(req, res);
+});
+
 export default router;
