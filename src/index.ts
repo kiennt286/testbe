@@ -20,6 +20,18 @@ app.get("/", (req: Request, res: Response) => {
   });
 });
 
+app.get("/check-db", async (req, res) => {
+  try {
+    console.log("🔍 Checking DB connection...");
+    const result = await db.execute(sql`SELECT 1`);
+    res.json({ message: "Database connected!", result });
+  } catch (error) {
+    console.error("❌ Database connection failed!", error);
+    res.status(500).json({ message: "Database connection failed!", error });
+  }
+});
+
+
 // 🟢 Test database connection
 app.get("/test-db", async (req: Request, res: Response) => {
   try {
