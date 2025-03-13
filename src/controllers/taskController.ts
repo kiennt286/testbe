@@ -5,16 +5,16 @@ import { Request, Response } from "express";
 
 export const getTasks = async (_: Request, res: Response) => {
   try {
+    console.log("⚡ Fetching tasks...");
     const allTasks = await db.select().from(tasks).orderBy(tasks.order);
-    if (allTasks.length === 0) {
-      return res.status(200).json({ success: true, data: [], message: "No tasks found" });
-    }
+    console.log("✅ Tasks fetched:", allTasks);
     res.status(200).json({ success: true, data: allTasks, message: "Tasks retrieved successfully" });
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ success: false, error: "Internal server error" });
+  } catch (error: any) {
+    console.error("❌ Error in getTasks:", error.message);
+    res.status(500).json({ success: false, error: error.message || "Internal server error" });
   }
 };
+
 
 export const createTask = async (req: Request, res: Response) => {
   try {
